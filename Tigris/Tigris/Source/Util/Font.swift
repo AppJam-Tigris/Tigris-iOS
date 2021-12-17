@@ -6,3 +6,9 @@
 //
 
 import Foundation
+
+enum Font: String {
+    case regular = "NotoSansCJKkr-Regular"
+    case bold = "NotoSansCJKkr-Bold"
+    case medium = "NotoSansCJKkr-Medium"
+}
