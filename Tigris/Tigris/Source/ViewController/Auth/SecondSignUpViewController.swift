@@ -7,7 +7,7 @@
 
 import UIKit
 
-class FirstSignUpViewController: BaseViewController {
+class SecondSignUpViewController: BaseViewController {
     
     private let logo = UIImageView().then {
         $0.image = .init(named: "logoImg")
