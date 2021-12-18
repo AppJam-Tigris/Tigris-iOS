@@ -20,7 +20,7 @@ class SignInViewModel: ViewModelType {
     }
     
     struct Output {
-        let result: Single<Bool>
+        let result: PublishRelay<Bool>
     }
     
     func transform(_ input: Input) -> Output {
@@ -41,6 +41,6 @@ class SignInViewModel: ViewModelType {
 
         }).disposed(by: disposeBag)
         
-        return Output(result: result.asSingle())
+        return Output(result: result)
     }
 }
