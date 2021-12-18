@@ -33,6 +33,20 @@ final class Service {
             .catch{ [unowned self] in return .just(setNetworkError($0))}
     }
     
+    func postPhoneNum(_ num: String) -> Single<StatusCode> {
+        return provider.rx.request(.postPhoneNum(num))
+            .filterSuccessfulStatusCodes()
+            .map{_ -> StatusCode in return .ok}
+            .catch{ [unowned self] in return .just(setNetworkError($0))}
+    }
+    
+    func checkPhoneNum(_ num: String, _ code: Int) -> Single<StatusCode> {
+        return provider.rx.request(.checkPhoneNum(num, code))
+            .filterSuccessfulStatusCodes()
+            .map{_ -> StatusCode in return .ok}
+            .catch{ [unowned self] in return .just(setNetworkError($0))}
+    }
+    
     func setNetworkError(_ error: Error) -> StatusCode {
         print(error)
         print(error.localizedDescription)
