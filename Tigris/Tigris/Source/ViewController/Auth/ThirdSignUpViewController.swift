@@ -88,7 +88,7 @@ class ThirdSignUpViewController: BaseViewController {
         
         output.isEnable.drive(nextBtn.rx.isEnabled).disposed(by: disposeBag)
         
-        output.checkIdResult.asDriver(onErrorJustReturn: false).drive(onNext: { enable in
+        output.checkIdResult.asObservable().subscribe(onNext: { enable in
             if enable {
                 self.idError.text = ""
                 self.nextBtn.isEnabled = enable
