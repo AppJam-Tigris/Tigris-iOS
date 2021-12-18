@@ -22,3 +22,8 @@ extension Point {
         )
     }
 }
+
+struct MainColor: Point {
+    static let darkBlue = pointHex(hex: "366799")
+    static let dark = pointHex(hex: "213E5C")
+}
