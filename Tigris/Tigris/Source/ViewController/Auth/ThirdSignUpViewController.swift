@@ -76,8 +76,8 @@ class ThirdSignUpViewController: BaseViewController {
         $0.backgroundColor = .white
     }
     
-    private let nextBtn = UIButton(type: .system).then {
-        $0.setTitle("다음", for: .normal)
+    private let signupBtn = UIButton(type: .system).then {
+        $0.setTitle("회원가입", for: .normal)
         $0.setTitleColor(.white, for: .normal)
         $0.backgroundColor = MainColor.darkBlue
         $0.layer.cornerRadius = 15
@@ -105,7 +105,7 @@ class ThirdSignUpViewController: BaseViewController {
         nationalityDrop.anchorView = nationalityBtn
         
         [logo, label, birth, gender, genderBtn,
-        nationality, nationalityBtn, location, locationBtn, nextBtn].forEach{view.addSubview($0)}
+        nationality, nationalityBtn, location, locationBtn, signupBtn].forEach{view.addSubview($0)}
         
         genderDrop.selectionAction = { [unowned self] (index: Int, item: String) in
                 genderBtn.setTitle(item, for: .normal)
@@ -198,29 +198,10 @@ class ThirdSignUpViewController: BaseViewController {
             $0.height.equalTo(12)
         }
         
-        nextBtn.snp.makeConstraints {
+        signupBtn.snp.makeConstraints {
             $0.top.equalTo(location.snp.bottom).offset(78)
             $0.leading.trailing.equalToSuperview().inset(44)
             $0.height.equalTo(40)
         }
-    }
-}
-
-import SwiftUI
-
-struct ViewControllerRepresentable1: UIViewControllerRepresentable {
-    typealias UIViewControllerType = SecondSignUpViewController
-
-    func makeUIViewController(context: Context) -> SecondSignUpViewController {
-        return SecondSignUpViewController()
-    }
-    func updateUIViewController(_ uiViewController: SecondSignUpViewController, context: Context) {
-    }
-}
-
-@available(iOS 13.0.0, *)
-struct ViewPreview1: PreviewProvider {
-    static var previews: some View {
-        ViewControllerRepresentable1()
     }
 }
