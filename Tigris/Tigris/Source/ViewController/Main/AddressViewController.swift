@@ -7,26 +7,55 @@
 
 import Foundation
 import UIKit
+import SnapKit
 
 class AddressViewController: BaseViewController {
     
-    private let searchBar = UISearchBar().then {
-        $0.setImage(UIImage(), for: UISearchBar.Icon.search, state: .normal)
-        $0.tintColor = .black
-        $0.searchTextField.placeholder = "주소를 입력하세요"
-        $0.searchTextField.backgroundColor = .clear
-        $0.searchTextField.font = .init(name: Font.medium.rawValue, size: 16)
-        $0.layer.addBorder([.bottom], color: MainColor.dark, width: 1)
+    private let viewModel = WriteAddressViewModel()
+    private let searchView = UIView()
+    
+    private let searchTxt = UITextField().then{
+        $0.placeholder = "진료소 검색"
+        $0.font = .init(name: Font.medium.rawValue, size: 16)
+    }
+    
+    private let searchBtn = UIButton(type: .system).then {
+        $0.setImage(.init(systemName: "magnifyingglass"), for: .normal)
+        $0.tintColor = MainColor.dark
     }
     
     private let tableView = UITableView().then {
         $0.backgroundColor = MainColor.gray
     }
     
+    private let btn = UIButton(type: .system).then {
+        $0.setTitle("예약하기", for: .normal)
+        $0.setTitleColor(.white, for: .normal)
+        $0.backgroundColor = MainColor.darkBlue
+        $0.layer.cornerRadius = 15
+    }
+    
     override func viewDidLoad() {
         tableView.register(AddressTableViewCell.self, forCellReuseIdentifier: "cell")
-//        tableView.delegate = self
-//        tableView.dataSource = self
+        view.backgroundColor = .white
+    }
+    
+    override func bindViewModel() {
+        let input = WriteAddressViewModel.Input(keyWord: searchTxt.rx.text.orEmpty.asDriver(),
+                                                tap: searchBtn.rx.tap.asDriver())
+        
+        let output = viewModel.transform(input)
+        
+        output.posts.bind(to: tableView.rx.items(cellIdentifier: "cell", cellType: AddressTableViewCell.self)) { row, items, cell in
+            cell.roadMain.text! = items.name
+            cell.addressTxt.text! = items.address
+            cell.postalNumTxt.text! = items.manager_phone_number
+        }.disposed(by: disposeBag)
+        
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        view.endEditing(true)
     }
     
     override func setNavigation() {
@@ -37,38 +66,37 @@ class AddressViewController: BaseViewController {
         navigationItem.titleView = imageView
     }
     
-    override func configureUI() {
-        [searchBar, tableView].forEach{view.addSubview($0)}
-    }
-    
     override func setUpConstraints() {
-        searchBar.layer.addBorder([.bottom], color: MainColor.darkBlue, width: 1)
+        [searchView, searchTxt, searchBtn, tableView, btn].forEach{view.addSubview($0)}
+        searchView.layer.addBorder([.bottom], color: MainColor.darkBlue, width: 1)
         
-        searchBar.snp.makeConstraints {
+        searchView.snp.makeConstraints {
             $0.top.equalToSuperview().inset(100)
             $0.leading.trailing.equalToSuperview().inset(35)
+            $0.height.equalTo(40)
+        }
+        
+        searchTxt.snp.makeConstraints {
+            $0.top.equalTo(searchView.snp.top).inset(0)
+            $0.left.trailing.equalToSuperview().inset(35)
+            $0.height.equalTo(35)
+        }
+        
+        searchBtn.snp.makeConstraints {
+            $0.centerY.equalTo(searchTxt)
+            $0.trailing.equalTo(searchTxt.snp.trailing).inset(5)
         }
         
         tableView.snp.makeConstraints {
-            $0.top.equalTo(searchBar.snp.bottom).offset(7)
+            $0.top.equalTo(searchView.snp.bottom).inset(10)
             $0.leading.trailing.equalToSuperview().inset(20)
-            $0.bottom.equalToSuperview()
+            $0.height.equalTo(450)
+        }
+        
+        btn.snp.makeConstraints {
+            $0.top.equalTo(tableView.snp.bottom).offset(55)
+            $0.leading.trailing.equalToSuperview().inset(45)
+            $0.height.equalTo(38)
         }
     }
 }
-//
-//extension AddressViewController: UITableViewDelegate, UITableViewDataSource {
-//    func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-//        <#code#>
-//    }
-//
-//    func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-//        <#code#>
-//    }
-//
-//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-//        <#code#>
-//    }
-//
-//
-//}
