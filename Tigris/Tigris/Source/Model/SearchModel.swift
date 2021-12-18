@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+struct postModel: Codable {
+    let name: String
+    let address: String
+    let ciry: String
+    let manager_phone_number: String
+}
+
+struct posts: Codable {
+    var posts: [postModel]
+}
