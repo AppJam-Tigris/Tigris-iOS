@@ -10,6 +10,7 @@ import UIKit
 import RxSwift
 import RxCocoa
 import SnapKit
+import Then
 
 class BaseViewController: UIViewController {
     
@@ -26,8 +27,13 @@ class BaseViewController: UIViewController {
     override func viewDidLoad() {
         self.view.backgroundColor = .white
         self.configureUI()
-        self.setUpConstraints()
         self.bindViewModel()
+        self.setNavigation()
+        self.setBtn()
+    }
+    
+    override func viewDidLayoutSubviews() {
+        self.setUpConstraints()
     }
     
     func configureUI() {
@@ -39,6 +45,13 @@ class BaseViewController: UIViewController {
     }
     
     func bindViewModel() {
+        
+    }
+    
+    func setNavigation() {
+    }
+    
+    func setBtn() {
         
     }
 
