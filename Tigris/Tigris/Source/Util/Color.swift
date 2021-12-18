@@ -2,7 +2,7 @@
 //  Color.swift
 //  Tigris
 //
-//  Created by 김기영 on 2021/12/17.
+//  Created by 김기영 on 2021/12/18.
 //
 
 import UIKit
@@ -26,4 +26,5 @@ extension Point {
 struct MainColor: Point {
     static let darkBlue = pointHex(hex: "366799")
     static let dark = pointHex(hex: "213E5C")
+    static let gray = pointHex(hex: "EAEAEA")
 }
