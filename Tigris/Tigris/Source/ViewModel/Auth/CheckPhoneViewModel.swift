@@ -23,10 +23,8 @@ class CheckPhoneViewModel: ViewModelType {
         let location: Location
         let uid: String
         let password: String
-        let signupTap: Driver<Void>
         let numBtnTap: Driver<Void>
         let checkNum: Driver<String>
-        let checkBtnTap: Driver<Void>
     }
     
     struct Output {
@@ -53,28 +51,6 @@ class CheckPhoneViewModel: ViewModelType {
                 numResult.accept(true)
             default:
                 numResult.accept(false)
-            }
-        }).disposed(by: disposeBag)
-        
-        input.checkBtnTap.asObservable().withLatestFrom(info).flatMap{ num, code in
-            api.checkPhoneNum(num, code)
-        }.subscribe(onNext: {  res in
-            switch res {
-            case .ok:
-                checkNumResult.accept(true)
-            default:
-                checkNumResult.accept(false)
-            }
-        }).disposed(by: disposeBag)
-        
-        input.signupTap.asObservable().withLatestFrom(info2).flatMap{ phone, Code in
-            api.signUp(input.name, phone, Code, input.birth, input.gender, input.nationality, input.location, input.uid, input.password)
-        }.subscribe(onNext: { res in
-            switch res {
-            case .createOk:
-                signupResult.accept(true)
-            default:
-                signupResult.accept(false)
             }
         }).disposed(by: disposeBag)
         
