@@ -16,12 +16,6 @@ class SignInViewController: BaseViewController {
         $0.image = .init(named: "logoImg")
     }
     
-    private let label = UILabel().then {
-        $0.text = "편한 코로나 선별진료"
-        $0.font = .init(name: Font.medium.rawValue, size: 14)
-        $0.textColor = MainColor.darkBlue
-    }
-    
     private let idView = AuthView().then {
         $0.txt.placeholder = "Email or Phone Number"
         $0.eyesBtn.isHidden = true
@@ -71,8 +65,15 @@ class SignInViewController: BaseViewController {
     }
     
     override func configureUI() {
-        [logo, label, idView, pwView, loginBtn, signupBtn]
+        [logo, idView, pwView, loginBtn, signupBtn]
             .forEach{view.addSubview($0)}
+    }
+    
+    override func setBtn() {
+        signupBtn.rx.tap.subscribe(onNext: {
+            let vc = FirstSignUpViewController()
+            self.navigationController?.pushViewController(vc, animated: true)
+        }).disposed(by: disposeBag)
     }
     
     override func setUpConstraints() {
@@ -83,17 +84,12 @@ class SignInViewController: BaseViewController {
         logo.snp.makeConstraints {
             $0.top.equalToSuperview().inset(100)
             $0.centerX.equalToSuperview()
-            $0.width.equalTo(116)
-            $0.height.equalTo(38)
-        }
-        
-        label.snp.makeConstraints {
-            $0.top.equalTo(logo.snp.bottom).offset(18)
-            $0.centerX.equalToSuperview()
+            $0.width.equalTo(123)
+            $0.height.equalTo(74)
         }
         
         idView.snp.makeConstraints {
-            $0.top.equalTo(label.snp.bottom).offset(60)
+            $0.top.equalTo(logo.snp.bottom).offset(60)
             $0.leading.trailing.equalToSuperview().inset(44)
             $0.height.equalTo(30)
         }
