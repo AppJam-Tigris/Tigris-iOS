@@ -24,9 +24,9 @@ extension API: TargetType {
     var path: String {
         switch self {
         case .signIn:
-            return "/auth/login"
+            return "/user/auth"
         case .signUp:
-            return "/auth/signup"
+            return "/user"
         }
     }
     
